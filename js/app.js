@@ -39,7 +39,43 @@ app.controller('NavCtrl', ['$scope', '$firebaseAuth', function ($scope, $firebas
 }]);
 
 //controller for trading list
-app.controller('TradeListCtrl', ['$scope', function ($scope) {
+app.controller('TradeListCtrl', ['$scope', '$firebaseAuth', '$firebaseArray', function ($scope, $firebaseAuth, $firebaseArray) {
+	var baseRef = firebase.database().ref();
+	var tradeListRef = baseRef.child('tradelist');
+	var usersRef = baseRef.child('users');
+
+	$scope.tradelist = $firebaseArray(tradeListRef);
+
+	var Auth = $firebaseAuth();
+
+	//respond to changes in auth state
+	//TODO: find a way to factor out all of these state checks
+	Auth.$onAuthStateChanged(function(firebaseUser) {
+		if (firebaseUser) {
+			$scope.uid = firebaseUser.uid;
+		} else {
+			$scope.uid = undefined;
+		}
+	});
+
+	//list a new trade post on the board
+	$scope.listTrade = function () {
+		//write the post data to database
+		var offerData = {
+			"userid": $scope.uid,
+			"timestamp": firebase.database.ServerValue.TIMESTAMP,
+			"offering": {
+				"species": $scope.offerSpecies,
+				"level": $scope.offerLevel
+			},
+			"seeking": {
+				"species": $scope.desiredSpecies,
+				"minLevel": $scope.minLevel,
+				"notes": $scope.notes
+			}
+		};
+		$scope.tradelist.$add(offerData);
+	};
 }]);
 
 //controller for sign up/in page

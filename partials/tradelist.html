@@ -11,26 +11,34 @@
   			<div id="post-form" class="collapse panel-body">
 				<form class="form-horizontal" role="form">
 					<div class="form-group row">
-						<div class="col-sm-4">
-						</div>
-						<div class="col-sm-4">
-							<h3>I want to trade my:</h3>
+						<h3>I want to trade my:</h3>
+						<div class="col-sm-6">
 							<label for="post-species-input">Pokemon species</label>
-							<input type="text" id="post-species-input" name="species" class="form-control">
+							<input type="text" id="post-species-input" name="species" class="form-control" ng-model="offerSpecies">
+						</div>
+						<div class="col-sm-6">
 							<label for="post-level-input">Level</label>
-							<input type="text" id="post-level-input" name="level" class="form-control">
+							<input type="text" id="post-level-input" name="level" class="form-control" ng-model="offerLevel">
+						</div>
+					</div>
+					<div class="form-group row">
+						<h3>For a:</h3>
+						<div class="col-sm-4">
+							<label for="post-for-species">Desired Pokemon species</label>
+							<input type="text" id="post-for-species" name="forSpecies" class="form-control" ng-model="desiredSpecies">
 						</div>
 						<div class="col-sm-4">
-							<h3>For a:</h3>
-							<label for="post-for-species">Desired Pokemon species</label>
-							<input type="text" id="post-for-species" name="forSpecies" class="form-control">
+							<label for="post-level-input">Minimum desired level</label>
+							<input type="text" id="post-level-input" name="level" class="form-control" ng-model="minLevel">
+						</div>
+						<div class="col-sm-4">
 							<label for="post-notes">Notes</label>
-							<input type="text" id="post-notes" name="notes" class="form-control" placeholder='e.g. "Looking for lvl 30 or greater etc."'>
+							<input type="text" id="post-notes" name="notes" class="form-control" placeholder='e.g. "Looking for lvl 30 or greater etc."' ng-model="notes">
 						</div>
 					</div>
 					<div class="form-group row text-center">
 						<div class="content">
-							<button class="btn btn-primary btn-lg" ng-click="">List my trade</button>
+							<button class="btn btn-primary btn-lg" ng-click="listTrade()">List my trade</button>
 						</div>
 					</div>
 				</form>
@@ -50,7 +58,25 @@
 	</section>
 	<section class="container" role="region">
 		<div id="posts" class="table-responsive">
-			<table class="table">
+			<table class="table table-hover">
+				<thead>
+					<tr>
+						<th>User</th>
+						<th>Offering</th>
+						<th>Seeking</th>
+						<th>Notes</th>
+						<th>Posted</th>
+					</tr>				
+				</thead>
+				<tbody>
+					<tr ng-repeat="post in tradelist">
+						<td><a>{{post.userid}}</a></td>
+						<td>{{post.offering.species}} - Level {{post.offering.level}}</td>
+						<td>{{post.seeking.species}} - Min Level {{post.seeking.minLevel}}</td>
+						<td>{{post.seeking.notes}}</td>
+						<td>{{post.timestamp | date : short}}</td>
+					</tr>
+				</tbody>
 			</table>
 		</div>
 	</section>
