@@ -24,14 +24,14 @@
 	<!-- firebase connection setup -->
 	<script src="https://www.gstatic.com/firebasejs/3.2.0/firebase.js"></script>
 	<script>
-	  // Initialize Firebase
-	  var config = {
-	    apiKey: "AIzaSyCYNfcbY5c6EpnuBtoKZw3OH--bWdzDw-U",
-	    authDomain: "pokemontrader-facb9.firebaseapp.com",
-	    databaseURL: "https://pokemontrader-facb9.firebaseio.com",
-	    storageBucket: "pokemontrader-facb9.appspot.com",
-	  };
-	  firebase.initializeApp(config);
+		// Initialize Firebase
+		var config = {
+			apiKey: "AIzaSyCYNfcbY5c6EpnuBtoKZw3OH--bWdzDw-U",
+			authDomain: "pokemontrader-facb9.firebaseapp.com",
+			databaseURL: "https://pokemontrader-facb9.firebaseio.com",
+			storageBucket: "pokemontrader-facb9.appspot.com",
+		};
+		firebase.initializeApp(config);
 	</script>
 	<!-- AngularFire -->
 	<script src="https://cdn.firebase.com/libs/angularfire/2.0.1/angularfire.min.js"></script>
@@ -41,27 +41,28 @@
 </head>
 <body>
 	<nav class="navbar-default" ng-controller="NavCtrl">
-	  <div class="container-fluid">
-	    <div class="navbar-header">
-	      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false">
-	        <span class="icon-bar"></span>
-	        <span class="icon-bar"></span>
-	        <span class="icon-bar"></span>
-	      </button>
-	      <a class="navbar-brand" ui-sref="tradelist"><img alt="Home" src="img/pokeball.png"></img></a>
-	    </div>
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse" aria-expanded="false">
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" ui-sref="tradelist"><img alt="Home" src="img/pokeball.png"></img></a>
+			</div>
 
-	    <div class="collapse navbar-collapse" id="navbar-collapse">
-	      <ul class="nav navbar-nav">
-	        <li><a href="#">Users</a></li>
-	      </ul>
-	      <ul class="nav navbar-nav navbar-right">
-	      	<li><a class="btn btn-white" ng-if="uid !== undefined" ng-click="logout()">Logout</a></li>
-	        <li><a ng-show="!uid" ui-sref="signup">Sign In</a></li>
-	      </ul>
-	    </div>
-	  </div>
+			<div class="collapse navbar-collapse" id="navbar-collapse">
+				<ul class="nav navbar-nav">
+					<li><a href="#">Users</a></li>
+				</ul>
+				<ul class="nav navbar-nav navbar-right">
+					<li><a class="btn btn-white" ng-if="user.uid !== undefined" ng-click="logout()">Logout</a></li>
+					<li><a ng-show="!user.uid" ui-sref="signup">Sign In</a></li>
+				</ul>
+			</div>
+		</div>
 	</nav>
+	
 	<div ui-view></div>
 
 	<footer role="contentinfo">
