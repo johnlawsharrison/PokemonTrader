@@ -43,6 +43,7 @@ app.controller('TradeListCtrl', ['$scope', '$firebaseArray', 'userService', func
 		//write the post data to database
 		var offerData = {
 			"userid": $scope.user.uid,
+			"username": $scope.user.username,
 			"timestamp": firebase.database.ServerValue.TIMESTAMP,
 			"offering": {
 				"species": $scope.offerSpecies,
@@ -68,16 +69,32 @@ app.controller('SignUpCtrl', ['$scope', 'userService', function ($scope, userSer
 	//create a new user with firebase
 	$scope.signUp = function () {
 		userService.auth.$createUserWithEmailAndPassword($scope.email, $scope.password)
-			.then(function(firebaseUser) {
+			.then(function (firebaseUser) {
 				console.log('user created: ' + firebaseUser.uid);
 				var userData = {
-					'username': $scope.username
+					'username': $scope.username,
+					//TODO: make a bunch of test users with different pokemon
+					'pokemon': [
+						{
+							"species": "Pikachu",
+							"level": 30
+						},
+						{
+							"species": "Charizard",
+							"level": 50
+						},
+						{
+							"species": "Bulbasaur",
+							"level": 10
+						}
+					]
 				};
 				var newUser = usersRef.child(firebaseUser.uid);
+				console.log(newUser);
 				newUser.set(userData);
 				userService.username = $scope.username;
 			})
-			.catch(function(error) {
+			.catch(function (error) {
 				console.log(error);
 			});
 	};
@@ -95,17 +112,20 @@ app.controller('SignUpCtrl', ['$scope', 'userService', function ($scope, userSer
 }]);
 
 //wrapper service for firebase user auth and maintaining other state for logged-in user
-app.factory('userService', ['$firebaseAuth', function ($firebaseAuth) {
+app.factory('userService', ['$firebaseAuth', '$firebaseObject', '$firebaseArray', function ($firebaseAuth, $firebaseObject, $firebaseArray) {
 	var service = {
 		'auth': $firebaseAuth()
 	};
+	var baseRef = firebase.database().ref();
+	var usersRef = baseRef.child('users');
 
 	//respond to changes in auth state
-	service.auth.$onAuthStateChanged(function(firebaseUser) {
+	service.auth.$onAuthStateChanged(function (firebaseUser) {
 		if (firebaseUser) {
-			// add this users name
 			service.uid = firebaseUser.uid;
-			// add this users list of pokemon
+			// fetch this user's data
+			service.username = $firebaseObject(usersRef.child(firebaseUser.uid).child('username'));
+			service.pokemon = $firebaseArray(usersRef.child(firebaseUser.uid).child('pokemon'));
 		} else {
 			// remove everything except auth directive link
 			service.username = undefined;
