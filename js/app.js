@@ -43,7 +43,7 @@ app.controller('TradeListCtrl', ['$scope', '$firebaseArray', 'userService', func
 		//write the post data to database
 		var offerData = {
 			"userid": $scope.user.uid,
-			"username": $scope.user.username,
+			"username": $scope.user.userData.username,
 			"timestamp": firebase.database.ServerValue.TIMESTAMP,
 			"offering": {
 				"species": $scope.offerSpecies,
@@ -103,7 +103,6 @@ app.controller('SignUpCtrl', ['$scope', 'userService', function ($scope, userSer
 	$scope.signIn = function () {
 		userService.auth.$signInWithEmailAndPassword($scope.email, $scope.password)
 			.then(function() {
-			// attach username to user service upon sign-in
 			})
 			.catch(function(error) {
 				console.log(error);
@@ -124,11 +123,11 @@ app.factory('userService', ['$firebaseAuth', '$firebaseObject', '$firebaseArray'
 		if (firebaseUser) {
 			service.uid = firebaseUser.uid;
 			// fetch this user's data
-			service.username = $firebaseObject(usersRef.child(firebaseUser.uid).child('username'));
+			service.userData = $firebaseObject(usersRef.child(firebaseUser.uid));
 			service.pokemon = $firebaseArray(usersRef.child(firebaseUser.uid).child('pokemon'));
 		} else {
 			// remove everything except auth directive link
-			service.username = undefined;
+			service.userData = undefined;
 			service.pokemon = undefined;
 			service.uid = undefined;
 		}

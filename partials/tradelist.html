@@ -2,6 +2,7 @@
 	<header class="container" role="banner">
 		<h1>Pokemon Trader</h1>
 		<p>The community-based Pokemon trading center</p>
+		<p ng-show="user.userData">Welcome back {{user.userData.username}}</p>
 	</header>
 	<section id="new-post" class="container" role="region">
 		<div class="panel panel-default">
@@ -69,8 +70,8 @@
 					</tr>				
 				</thead>
 				<tbody>
-					<tr ng-repeat="post in tradelist">
-						<td><a>{{post.userid}}</a></td>
+					<tr ng-repeat="post in tradelist | orderBy: '-timestamp'">
+						<td><a>{{post.username}}</a></td>
 						<td>{{post.offering.species}} - Level {{post.offering.level}}</td>
 						<td>{{post.seeking.species}} - Min Level {{post.seeking.minLevel}}</td>
 						<td>{{post.seeking.notes}}</td>
