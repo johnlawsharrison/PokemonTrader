@@ -46,18 +46,14 @@
   			</div>
 		</div>
 	</section>
-	<section id="filters" class="container" role="region">
-		<div class="panel panel-default">
-  			<div class="panel-heading">
-  				<a href="#filter-form" data-toggle="collapse">Filters</a>
-  			</div>
-  			<div id="filter-form" class="collapse panel-body">
-				<form class="form-horizontal" role="form">
-				</form>
-  			</div>
-		</div>
-	</section>
 	<section class="container" role="region">
+		<div class="row">
+			<form class="pull-right trade-search" name="searchForm" role="form" novalidate>
+				<div class="form-group form-inline">
+					<input type="text" name="item" id="item" class="form-control" ng-model="searchQuery" placeholder="Search for a trade" autofocus>
+				</div>
+			</form>
+		</div>
 		<div id="posts" class="table-responsive">
 			<table class="table table-hover">
 				<thead>
@@ -70,7 +66,7 @@
 					</tr>				
 				</thead>
 				<tbody>
-					<tr ng-repeat="post in tradelist | orderBy: '-timestamp'">
+					<tr ng-repeat="post in tradelist | filter: searchQuery | orderBy: '-timestamp'">
 						<td><a>{{post.username}}</a></td>
 						<td>{{post.offering.species}} - Level {{post.offering.level}}</td>
 						<td>{{post.seeking.species}} - Min Level {{post.seeking.minLevel}}</td>

@@ -64,7 +64,10 @@ nav img {
 	padding-left: 15px;
 }
 
-/**/
+/* tradelist */
+.trade-search {
+	margin-right: 15px;
+}
 
 .sprite {
 	height: auto;

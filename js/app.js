@@ -57,6 +57,13 @@ app.controller('TradeListCtrl', ['$scope', '$firebaseArray', 'userService', func
 		};
 		$scope.tradelist.$add(offerData);
 	};
+
+	//allow the current user to remove any posts associated  with their uid
+	$scope.removeTrade = function () {
+		console.log($scope.tradelist);
+		//$scope.tradelist.$remove();
+
+	}
 }]);
 
 //controller for sign up/in page
@@ -69,8 +76,7 @@ app.controller('SignUpCtrl', ['$scope', 'userService', function ($scope, userSer
 	//create a new user with firebase
 	$scope.signUp = function () {
 		userService.auth.$createUserWithEmailAndPassword($scope.email, $scope.password)
-			.then(function (firebaseUser) {
-				console.log('user created: ' + firebaseUser.uid);
+			.then(function (firebaseUser) {				
 				var userData = {
 					'username': $scope.username,
 					//TODO: make a bunch of test users with different pokemon
@@ -90,9 +96,9 @@ app.controller('SignUpCtrl', ['$scope', 'userService', function ($scope, userSer
 					]
 				};
 				var newUser = usersRef.child(firebaseUser.uid);
-				console.log(newUser);
 				newUser.set(userData);
 				userService.username = $scope.username;
+				//TODO: show a result panel and redirect to the tradelist
 			})
 			.catch(function (error) {
 				console.log(error);
@@ -103,6 +109,7 @@ app.controller('SignUpCtrl', ['$scope', 'userService', function ($scope, userSer
 	$scope.signIn = function () {
 		userService.auth.$signInWithEmailAndPassword($scope.email, $scope.password)
 			.then(function() {
+				//TODO: show signin success and redirect to tradelist
 			})
 			.catch(function(error) {
 				console.log(error);
