@@ -7,17 +7,14 @@ a, a:focus, body {
 	color: black;
 }
 
-h1 {
-	font-weight: 900;
-}
-
-header {
+.jumbotron {
 	padding-top: 38px;
 	color: #fff;
 	background-color: #263238;
 }
 
 body {
+	padding-top: 50px;
 	font-family: 'Lato', sans-serif;
 }
 
@@ -89,11 +86,14 @@ nav img {
 	padding-right: 15px;
 	margin-top: 25px;
 }
-/**/
+/* trade modal */
+.modal-header {
+	color: #fff;
+	background-color: #EF5350;
+}
 
-.sprite {
-	height: auto;
-	width: 33%;
+.username {
+	color: ;
 }
 
 /* type coloring */
