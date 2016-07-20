@@ -17,7 +17,7 @@ app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $u
 		})
 		.state('profileView', {
 			url: '/user-profile',
-			templateUrl: 'partials/user-profile',
+			templateUrl: 'partials/user-profile.html',
 			controller: 'UserProfileCtrl'
 		});
 	$urlRouterProvider.otherwise('/');
