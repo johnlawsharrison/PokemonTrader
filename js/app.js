@@ -41,13 +41,14 @@ app.controller('TradeListCtrl', ['$scope', '$firebaseArray', 'userService', func
 	//list a new trade post on the board
 	$scope.listTrade = function () {
 		//write the post data to database
-		var offerData = {
+		var data = {
 			"userid": $scope.user.uid,
 			"username": $scope.user.userData.username,
 			"timestamp": firebase.database.ServerValue.TIMESTAMP,
 			"offering": {
-				"species": $scope.offerSpecies,
-				"level": $scope.offerLevel
+				"id": $scope.offerData.$id,
+				"species": $scope.offerData.species,
+				"level": $scope.offerData.level
 			},
 			"seeking": {
 				"species": $scope.desiredSpecies,
@@ -55,19 +56,17 @@ app.controller('TradeListCtrl', ['$scope', '$firebaseArray', 'userService', func
 				"notes": $scope.notes
 			}
 		};
-		$scope.tradelist.$add(offerData);
+		$scope.tradelist.$add(data);
 	};
 
 	//allow the current user to remove any posts associated  with their uid
-	$scope.removeTrade = function () {
-		console.log($scope.tradelist);
-		//$scope.tradelist.$remove();
-
+	$scope.removeTrade = function (postId) {
+		$scope.tradelist.$remove($scope.tradelist.$getRecord(postId));
 	}
 }]);
 
 //controller for sign up/in page
-app.controller('SignUpCtrl', ['$scope', 'userService', function ($scope, userService) {
+app.controller('SignUpCtrl', ['$scope', '$firebaseArray', 'userService', function ($scope, $firebaseArray, userService) {
 	var baseRef = firebase.database().ref();
 	var usersRef = baseRef.child('users');
 
@@ -76,11 +75,15 @@ app.controller('SignUpCtrl', ['$scope', 'userService', function ($scope, userSer
 	//create a new user with firebase
 	$scope.signUp = function () {
 		userService.auth.$createUserWithEmailAndPassword($scope.email, $scope.password)
-			.then(function (firebaseUser) {				
+			.then(function (firebaseUser) {
 				var userData = {
-					'username': $scope.username,
-					//TODO: make a bunch of test users with different pokemon
-					'pokemon': [
+					'username': $scope.username
+				};
+				var newUser = usersRef.child(firebaseUser.uid);
+				newUser.set(userData);
+				// give the user some starter pokemon
+				//TODO: randomize these
+				var starters = [
 						{
 							"species": "Pikachu",
 							"level": 30
@@ -93,10 +96,11 @@ app.controller('SignUpCtrl', ['$scope', 'userService', function ($scope, userSer
 							"species": "Bulbasaur",
 							"level": 10
 						}
-					]
+				]
+				var newPokemon = $firebaseArray(usersRef.child(firebaseUser.uid).child('pokemon'));
+				for (var i = 0; i < starters.length; i++) {
+					newPokemon.$add(starters[i]);
 				};
-				var newUser = usersRef.child(firebaseUser.uid);
-				newUser.set(userData);
 				userService.username = $scope.username;
 				//TODO: show a result panel and redirect to the tradelist
 			})
