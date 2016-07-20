@@ -284,13 +284,28 @@ app.factory('tradeService', ['$firebaseArray', function ($firebaseArray) {
 
 	// get a trade by ID
 	service.getTrade = function(tradeID) {
-
+		return service.pendingTrades.$getRecord(tradeID);
 	};
 
 	//fulfill a trade between two users
 	service.fulfillTrade = function (tradeID) {
 		// transfer the pokemon, leveling each one up
-		// remove all trades associated with these pokemon
+		var trade = getTrade(tradeID);
+		var usersRef = baseRef.child('users');
+
+		var requestUserList = $firebaseArray(usersRef.child(trade.request.userid).child('pokemon'));
+		var offerUserList = $firebaseArray(usersRef.child(trade.offer.userid).child('pokemon'));
+
+		// swap pokemon, once both have succeeded remove both (nested callback?)
+		requestUserList.$add(trade.offer.pokemon).then(function (ref) {
+			offerUserList.$add(trade.request.pokemon).then(function (ref) {
+				// remove both original pokemon
+				requestUserList.$remove(requestUserList($getRecord(trade.request.pokemon.id));
+				offerUserList.$remove(offerUserList($getRecord(trade.offer.pokemon.id));
+			});
+		});
+		service.deleteTrade(tradeID);
+		// remove all trades associated with these pokemon (including this one)
 		// remove all listings associated with these pokemon
 	};
 
