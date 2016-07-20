@@ -1,7 +1,7 @@
 <header role="banner" class="jumbotron">
 	<div class="text-center">
 		<h1>{{user.userData.username}}</h1>
-		<p>Total Points: {{calculatePoints()}}</p>
+		<p ng-if="user.pokemon !== undefined">Total Points: <span class="score">{{user.pokemon | score}}</span></p>
 	</div>
 </header>
 <main role="main">

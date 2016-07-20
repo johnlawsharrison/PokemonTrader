@@ -299,6 +299,16 @@ app.factory('tradeService', ['$firebaseArray', function ($firebaseArray) {
 	return service;
 }]);
 
+// filter for displaying score
+app.filter('score', function() {
+	return function(pokemon) {
+		var total = 0;
+		for (var i = 0; i < pokemon.length; i++) {
+			total += pokemon[i]['level'];
+		};
+		return total;
+	}
+})
 // helper function for picking random pokemon
 // thanks to http://stackoverflow.com/questions/2532218/pick-random-property-from-a-javascript-object
 function pickRandomProperty(obj) {
