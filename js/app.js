@@ -55,7 +55,9 @@ app.controller('TradeListCtrl', ['$scope', '$firebaseArray', '$uibModal', 'userS
 		};
 		data.offering.id = $scope.offerData.$id;
 
-		$scope.tradelist.$add(data);
+		$scope.tradelist.$add(data).then(function() {
+			$('.panel-body').removeClass('in');
+		});
 	};
 
 	//allow the current user to remove any posts associated  with their uid
