@@ -1,23 +1,15 @@
 <div class="modal-header">
-  <h2 class="modal-title">Respond to proposal from <span class="username">{{selectedPost.username}}</span></h3>
+  <h2 class="modal-title">Respond to proposal from <span class="username">{{trade.offer.username}}</span></h3>
 </div>
 <div class="modal-body">
 	<div>
 		<div class="row">
 			<div class="col-sm-6">
 				<h3>Your Pokemon</h3>
-				<p>{{selectedPost.offering.species}} - Level {{selectedPost.offering.level}}</p>
-				<!-- <form name="tradeForm" role="form" novalidate>
-					<div class="form-group">
-						<label for="proposeSelect">Select one of your Pokemon to trade</label>
-						<select name="proposeSelect" id="proposeSelect" ng-options="poke as poke.species + ' (Lvl ' + poke.level + ')' for poke in user.pokemon" ng-model="proposeData" class="form-control" required>
-						</select>
-					</div>
-				</form> -->
-			</div>
+				<p>{{trade.request.pokemon.species}} - Level {{trade.request.pokemon.level}}</p>
 			<div class="col-sm-6">
-				<h3>{{selectedPost.username}}'s Pokemon</h3>
-				<p>{{selectedPost.offering.species}} - Level {{selectedPost.offering.level}}</p>
+				<h3>{{trade.offer.username}}'s Pokemon</h3>
+				<p>{{trade.offer.pokemon.species}} - Level {{trade.offer.pokemon.level}}</p>
 			</div>
 		</div>
 	</div>

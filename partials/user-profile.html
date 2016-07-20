@@ -41,13 +41,13 @@
 						</thead>
 						<tbody>
 							<tr ng-repeat="trade in pendingTrades | filter : {request: {userid: user.uid}}" ng-hide="!user.uid">
-								<td><a>{{selectedPost.username}}</a></td>
-								<td>{{post.offering.species}} - Level {{post.offering.level}}</td>
-								<td>{{post.seeking.species}} - Min Level {{post.seeking.minLevel}}</td>
-								<td>{{post.seeking.notes}}</td>
-								<td>{{post.timestamp | date : 'short'}}</td>
+								<td><a>{{trade.offer.username}}</a></td>
+								<td>{{trade.offer.pokemon.species}} - Level {{trade.offer.pokemon.level}}</td>
+								<td>{{trade.request.pokemon.species}} - Level {{trade.request.pokemon.level}}</td>
+								<td>{{trade.offer.notes}}</td>
+								<td>{{trade.timestamp | date : 'short'}}</td>
 								<td>
-									<button ng-show="user.uid === post.userid" class="btn btn-danger" ng-click="tradeResponse(post)">Respond to Trade</button>
+									<button ng-show="user.uid === trade.request.userid" class="btn btn-danger" ng-click="tradeResponse(post)">Respond to Trade</button>
 								</td>
 							</tr>
 						</tbody>
@@ -120,4 +120,6 @@
 			</div>
 		</div>
 	</section>
+</main>
+
 </main>
