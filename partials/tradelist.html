@@ -2,7 +2,7 @@
 	<header class="container" role="banner">
 		<h1>Pokemon Trader</h1>
 		<p>The community-based Pokemon trading center</p>
-		<h3 ng-show="!user.uid">To begin trading, you must <button class="btn btn-primary" ui-sref="signup">Sign in</button> first</h3>
+		<h3 ng-show="!user.uid">To begin trading <button class="btn btn-primary" ui-sref="signup">Sign in</button></h3>
 		<p ng-show="user.userData">Welcome back {{user.userData.username}}</p>
 	</header>
 	<section ng-show="user.uid" id="new-post" class="container" role="region">

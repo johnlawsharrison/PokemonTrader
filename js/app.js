@@ -111,7 +111,7 @@ app.controller('ProposeTradeCtrl', ['$scope', '$uibModalInstance', '$firebaseArr
 }]);
 
 //controller for sign up/in page
-app.controller('SignUpCtrl', ['$scope', '$firebaseArray', 'userService', function ($scope, $firebaseArray, userService) {
+app.controller('SignUpCtrl', ['$scope', '$firebaseArray', '$location', 'userService', function ($scope, $firebaseArray, $location, userService) {
 	var baseRef = firebase.database().ref();
 	var usersRef = baseRef.child('users');
 
@@ -148,6 +148,7 @@ app.controller('SignUpCtrl', ['$scope', '$firebaseArray', 'userService', functio
 				};
 				userService.username = $scope.username;
 				//TODO: show a result panel and redirect to the tradelist
+				$location.path('/tradelist');
 			})
 			.catch(function (error) {
 				console.log(error);
@@ -212,7 +213,7 @@ app.factory('tradeService', ['$firebaseArray', function ($firebaseArray) {
 
 	//return a list of trade id's associated with the Pokemon passed
 	service.getTradesForPokemon = function (pokemonID) {
-		
+
 	};
 
 	return service;
