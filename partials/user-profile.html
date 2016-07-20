@@ -46,7 +46,7 @@
 			<div id="yourProposals-table" class="table-responsive">
 				<table class="table table-hover">
 				<thead>
-					<tr> <!-- Need to edit the column names -->
+					<tr>
 						<th>Other User</th>
                         <th>Trading For</th>
 						<th>Offering Your</th>
@@ -59,7 +59,7 @@
                         <td>{{trade.request.pokemon.species}} - Min Level {{trade.request.pokemon.level}}</td>
 						<td>{{trade.offer.pokemon.species}} - Level {{trade.offer.pokemon.level}}</td>
 						<td>
-							<button ng-show="user.uid === trade.offer.userid" class="btn btn-danger" ng-click="removeTrade(post.$id)">Delete Proposal</button>
+							<button ng-show="user.uid === trade.offer.userid" class="btn btn-danger" ng-click="cancelProposal(trade.$id)">Cancel Proposal</button>
 						</td>
 					</tr>
 				</tbody>
@@ -75,8 +75,7 @@
 			<div id="yourProposals-table" class="table-responsive">
 				<table class="table table-hover">
 				<thead>
-					<tr> <!-- Need to edit the column names -->
-						<th>User</th>
+					<tr>
                         <th>Seeking</th>
 						<th>Offering Your</th>
 						<th>Notes</th>
@@ -86,7 +85,6 @@
 				</thead>
 				<tbody>
 					<tr ng-repeat="post in tradelist | orderBy: '-timestamp'" ng-hide="!user.uid || user.uid !== post.userid">
-                        <td><a>{{post.username}}</a></td>
                         <td>{{post.seeking.species}} - Min Level {{post.seeking.minLevel}}</td>
 						<td>{{post.offering.species}} - Level {{post.offering.level}}</td>
 						<td>{{post.seeking.notes}}</td>

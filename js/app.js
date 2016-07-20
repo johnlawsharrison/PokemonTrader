@@ -132,6 +132,11 @@ app.controller('UserProfileCtrl', ['$scope', '$uibModal', '$firebaseArray', 'tra
 		$scope.tradelist.$remove($scope.tradelist.$getRecord(postId));
 	}
 
+	//allow user to cancel any proposals they have made to others
+	$scope.cancelProposal = function (proposalId) {
+		tradeService.deleteTrade(proposalId);
+	};
+
 	//Respon to a propsal
 	$scope.tradeResponse = function(post) {
 		//show modal
@@ -270,7 +275,7 @@ app.factory('tradeService', ['$firebaseArray', function ($firebaseArray) {
 
 	//Delete the specific trade
 	service.deleteTrade = function(tradeID) {
-		service.pendingTrades.$remove(tradeID);
+		service.pendingTrades.$remove(service.pendingTrades.$getRecord(tradeID));
 	};
 
 	// get a trade by ID
@@ -289,7 +294,6 @@ app.factory('tradeService', ['$firebaseArray', function ($firebaseArray) {
 	service.getTradesForUser = function (userID) {
 		// oh wait this can be filtered with angular!
 		//var trades = service.pendingTrades.filter()
-
 	};
 
 	//return a list of trade id's associated with the Pokemon passed
