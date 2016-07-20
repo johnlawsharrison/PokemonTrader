@@ -30,7 +30,7 @@ app.controller('NavCtrl', ['$scope', 'userService', function ($scope, userServic
 }]);
 
 //controller for trading list
-app.controller('TradeListCtrl', ['$scope', '$firebaseArray', 'userService', function ($scope, $firebaseArray, userService) {
+app.controller('TradeListCtrl', ['$scope', '$firebaseArray', '$uibModal', 'userService', function ($scope, $firebaseArray, $uibModal, userService) {
 	var baseRef = firebase.database().ref();
 	var tradeListRef = baseRef.child('tradelist');
 	var usersRef = baseRef.child('users');
@@ -64,6 +64,36 @@ app.controller('TradeListCtrl', ['$scope', '$firebaseArray', 'userService', func
 	$scope.removeTrade = function (postId) {
 		$scope.tradelist.$remove($scope.tradelist.$getRecord(postId));
 	}
+
+	//propose a trade to the selected offer
+	$scope.proposeTrade = function (post) {
+		//show modal
+		$scope.selectedPost = post;
+		var modalInstance = $uibModal.open({
+			//angular seems to be caching modals, so we do a random cache bust
+			templateUrl: 'partials/trade-modal.html?bust=' + Math.random().toString(36).slice(2),
+			controller: 'ProposeTradeCtrl', //controller for the modal
+			scope: $scope //pass in all our scope variables!
+		});
+
+		//When the modal closes (with a result)
+		modalInstance.result.then(function(selectedItem) {
+		});
+	};
+}]);
+
+//controller for trade proposal modal
+app.controller('ProposeTradeCtrl', ['$scope', '$uibModalInstance', function ($scope, $uibModalInstance) {
+
+	//submit the trade proposal for review by other user
+	$scope.submitProposal = function () {
+	};
+
+	//function to call when cancel button pressed
+	$scope.cancel = function () {
+		$uibModalInstance.dismiss('cancel');
+	};
+
 }]);
 
 //controller for sign up/in page

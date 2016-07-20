@@ -70,7 +70,7 @@
 						<td>{{post.seeking.notes}}</td>
 						<td>{{post.timestamp | date : 'short'}}</td>
 						<td>
-							<button ng-hide="user.uid === post.userid" class="btn btn-success">Propose Trade</button>
+							<button ng-hide="user.uid === post.userid" class="btn btn-success" ng-click="proposeTrade(post)">Propose Trade</button>
 							<button ng-show="user.uid === post.userid" class="btn btn-danger" ng-click="removeTrade(post.$id)">Remove Trade</button>
 						</td>
 					</tr>
