@@ -24,12 +24,14 @@ app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $u
 }]);
 
 //controller for navbar (logout and search from any part of the app)
-app.controller('NavCtrl', ['$scope', 'userService', function ($scope, userService) {
+app.controller('NavCtrl', ['$scope', '$location', 'userService', function ($scope, $location, userService) {
 	$scope.user = userService;
 
 	//log out the signed-in user
 	$scope.logout = function () {
 		userService.auth.$signOut();
+		//redirect to the tradelist page
+		$location.path('/tradelist');
 	};
 
 }]);
