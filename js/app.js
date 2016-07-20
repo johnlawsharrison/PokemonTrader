@@ -119,6 +119,7 @@ app.controller('SignUpCtrl', ['$scope', '$firebaseArray', '$location', 'userServ
 
 	//create a new user with firebase
 	$scope.signUp = function () {
+		$scope.error = null;
 		userService.auth.$createUserWithEmailAndPassword($scope.email, $scope.password)
 			.then(function (firebaseUser) {
 				var userData = {
@@ -151,18 +152,20 @@ app.controller('SignUpCtrl', ['$scope', '$firebaseArray', '$location', 'userServ
 				$location.path('/tradelist');
 			})
 			.catch(function (error) {
-				console.log(error);
+				$scope.error = "There is already an account associated with this email";
 			});
 	};
 
 	//sign in as the user
 	$scope.signIn = function () {
+		$scope.error = null;
 		userService.auth.$signInWithEmailAndPassword($scope.email, $scope.password)
 			.then(function() {
 				//TODO: show signin success and redirect to tradelist
+				$location.path('/tradelist');
 			})
 			.catch(function(error) {
-				console.log(error);
+				$scope.error = "Incorrect email or password";
 			});
 	};
 }]);
