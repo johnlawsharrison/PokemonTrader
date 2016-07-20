@@ -281,37 +281,21 @@ app.factory('tradeService', ['$firebaseArray', function ($firebaseArray) {
 	//fulfill a trade between two users
 	service.fulfillTrade = function (tradeID) {
 		// transfer the pokemon, leveling each one up
-		var trade = getTrade(tradeID);
+		var trade = service.getTrade(tradeID);
 		var usersRef = baseRef.child('users');
 
 		var requestUserList = $firebaseArray(usersRef.child(trade.request.userid).child('pokemon'));
 		var offerUserList = $firebaseArray(usersRef.child(trade.offer.userid).child('pokemon'));
 
-		// swap pokemon, once both have succeeded remove both (nested callback?)
+		// level up pokemon and swap em!
+		trade.offer.pokemon.level++;
+		trade.request.pokemon.level++;
 		requestUserList.$add(trade.offer.pokemon).then(function (ref) {
-			offerUserList.$add(trade.request.pokemon).then(function (ref) {
-				// remove both original pokemon
-				requestUserList.$remove(requestUserList($getRecord(trade.request.pokemon.id)));
-				offerUserList.$remove(offerUserList($getRecord(trade.offer.pokemon.id)));
-			});
+			offerUserList.$add(trade.request.pokemon);
 		});
+		// remove the trade request
 		service.deleteTrade(tradeID);
-		// remove all trades associated with these pokemon (including this one)
-		// remove all listings associated with these pokemon
 	};
-
-	//return all pending trades for this user as a list of IDs
-	service.getTradesForUser = function (userID) {
-		// oh wait this can be filtered with angular!
-		//var trades = service.pendingTrades.filter()
-	};
-
-	//return a list of trade id's associated with the Pokemon passed
-	//useful for removing trades that are invalidated by another successful trade
-	service.getTradesForPokemon = function (pokemonID) {
-
-	};
-
 	return service;
 }]);
 

@@ -1,6 +1,7 @@
 <header role="banner" class="jumbotron">
 	<div class="text-center">
 		<h1>{{user.userData.username}}</h1>
+		<p>Total Points: {{calculatePoints()}}</p>
 	</div>
 </header>
 <main role="main">
@@ -43,7 +44,7 @@
 								<td>{{trade.offer.pokemon.species}} - Level {{trade.offer.pokemon.level}}</td>
 								<td>{{trade.request.pokemon.species}} - Level {{trade.request.pokemon.level}}</td>
 								<td>
-									<button ng-show="user.uid === trade.request.userid" class="btn btn-danger" ng-click="tradeResponse(trade)">Respond to Trade</button>
+									<button ng-show="user.uid === trade.request.userid" class="btn btn-success" ng-click="tradeResponse(trade)">Respond to Trade</button>
 								</td>
 							</tr>
 						</tbody>
