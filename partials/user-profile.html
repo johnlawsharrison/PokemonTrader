@@ -34,20 +34,16 @@
 								<th>User</th>
 								<th>Offering</th>
 								<th>Seeking Your</th>
-								<th>Notes</th>
-								<th>Posted</th>
 								<th>Action</th>
 							</tr>
 						</thead>
 						<tbody>
-							<tr ng-repeat="trade in pendingTrades | filter : {request: {userid: user.uid}}" ng-hide="!user.uid">
+							<tr ng-repeat="trade in pendingTrades | filter : {'request': {'userid': user.uid}}" ng-hide="!user.uid">
 								<td><a>{{trade.offer.username}}</a></td>
 								<td>{{trade.offer.pokemon.species}} - Level {{trade.offer.pokemon.level}}</td>
 								<td>{{trade.request.pokemon.species}} - Level {{trade.request.pokemon.level}}</td>
-								<td>{{trade.offer.notes}}</td>
-								<td>{{trade.timestamp | date : 'short'}}</td>
 								<td>
-									<button ng-show="user.uid === trade.request.userid" class="btn btn-danger" ng-click="tradeResponse(post)">Respond to Trade</button>
+									<button ng-show="user.uid === trade.request.userid" class="btn btn-danger" ng-click="tradeResponse(trade)">Respond to Trade</button>
 								</td>
 							</tr>
 						</tbody>

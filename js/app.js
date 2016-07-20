@@ -141,10 +141,10 @@ app.controller('UserProfileCtrl', ['$scope', '$uibModal', '$firebaseArray', 'tra
 		tradeService.deleteTrade(proposalId);
 	};
 
-	//Respon to a propsal
-	$scope.tradeResponse = function(post) {
+	//Respond to a proposal
+	$scope.tradeResponse = function(trade) {
 		//show modal
-		$scope.selectedPost = post;
+		$scope.trade = trade;
 		var modalInstance = $uibModal.open({
 			//angular seems to be caching modal state, so we do a random cache bust
 			templateUrl: 'partials/response-modal.html?bust=' + Math.random().toString(36).slice(2),
@@ -158,30 +158,21 @@ app.controller('UserProfileCtrl', ['$scope', '$uibModal', '$firebaseArray', 'tra
 app.controller('TradeResponseCtrl', ['$scope', '$uibModalInstance', '$firebaseArray', 'tradeService', function ($scope, $uibModalInstance, $firebaseArray, tradeService) {
 
 	//accept the proposal and fulfill the trade
-	$scope.acceptProposal= function () {
-		var tradeData = {
-			"offer": {
-				"userid": $scope.user.uid,
-				"username": $scope.user.userData.username,
-				"pokemon": $scope.proposeData
-			},
-			"request": {
-				"userid": $scope.selectedPost.userid,
-				"username": $scope.selectedPost.username,
-				"pokemon": $scope.selectedPost.offering
-			}
-		};
-		
-		tradeService.fulfillTrade();
+	$scope.acceptProposal= function (tradeID) {
+		tradeService.fulfillTrade(tradeID);
 		$uibModalInstance.close();
 	};
 
-	//function to call when cancel button pressed
-	$scope.declineProposal = function () {
-		tradeService.deleteTrade(/*tradeID*/);
-		$uibModalInstance.dismiss('cancel');
+	//function to call when decline button pressed
+	$scope.declineProposal = function (tradeID) {
+		tradeService.deleteTrade(tradeID);
+		$uibModalInstance.dismiss('decline');
 	};
 
+	//cancel the dialog, do nothing about the trade
+	$scope.cancel = function () {
+		$uibModalInstance.dismiss('cancel');
+	};
 }]);
 
 
