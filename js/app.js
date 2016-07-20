@@ -80,10 +80,6 @@ app.controller('TradeListCtrl', ['$scope', '$firebaseArray', '$uibModal', 'userS
 			controller: 'ProposeTradeCtrl',
 			scope: $scope
 		});
-
-		//When the modal closes (with a result)
-		modalInstance.result.then(function(selectedItem) {
-		});
 	};
 }]);
 
@@ -118,13 +114,14 @@ app.controller('ProposeTradeCtrl', ['$scope', '$uibModalInstance', '$firebaseArr
 }]);
 
 
-app.controller('UserProfileCtrl', ['$scope', '$uibModalInstance', '$firebaseArray', 'tradeService', 'userService', function ($scope, $uibModalInstance, $firebaseArray, tradeService, userService) {
+app.controller('UserProfileCtrl', ['$scope', '$uibModal', '$firebaseArray', 'tradeService', 'userService', function ($scope, $uibModal, $firebaseArray, tradeService, userService) {
 	var baseRef = firebase.database().ref();
 	var tradeListRef = baseRef.child('tradelist');
 	var usersRef = baseRef.child('users');
 
 	$scope.user = userService;
 	$scope.tradelist = $firebaseArray(tradeListRef);
+	$scope.pendingTrades = tradeService.pendingTrades;
 	$scope.notes = "";
 
 
@@ -142,10 +139,6 @@ app.controller('UserProfileCtrl', ['$scope', '$uibModalInstance', '$firebaseArra
 			templateUrl: 'partials/response-modal.html?bust=' + Math.random().toString(36).slice(2),
 			controller: 'TradeResponseCtrl', //controller for the modal
 			scope: $scope //pass in all our scope variables!
-		});
-
-		//When the modal closes (with a result)
-		modalInstance.result.then(function(selectedItem) {
 		});
 	};	
 }]);
@@ -274,9 +267,14 @@ app.factory('tradeService', ['$firebaseArray', function ($firebaseArray) {
 	service.pendingTrades = $firebaseArray(baseRef.child('pendingTrades'));
 
 	//Delete the specific trade
-	service.deleteTrade = function(tradeID){
-		
-	}
+	service.deleteTrade = function(tradeID) {
+		service.pendingTrades.$remove(tradeID);
+	};
+
+	// get a trade by ID
+	service.getTrade = function(tradeID) {
+
+	};
 
 	//fulfill a trade between two users
 	service.fulfillTrade = function (tradeID) {
@@ -285,12 +283,15 @@ app.factory('tradeService', ['$firebaseArray', function ($firebaseArray) {
 		// remove all listings associated with these pokemon
 	};
 
-	//return all pending trades for this user
+	//return all pending trades for this user as a list of IDs
 	service.getTradesForUser = function (userID) {
+		// oh wait this can be filtered with angular!
+		//var trades = service.pendingTrades.filter()
 
 	};
 
 	//return a list of trade id's associated with the Pokemon passed
+	//useful for removing trades that are invalidated by another successful trade
 	service.getTradesForPokemon = function (pokemonID) {
 
 	};
