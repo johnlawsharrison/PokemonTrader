@@ -148,7 +148,7 @@ app.controller('SignUpCtrl', ['$scope', '$firebaseArray', '$location', 'userServ
 					newPokemon.$add(starters[i]);
 				};
 				userService.username = $scope.username;
-				//TODO: show a result panel and redirect to the tradelist
+				//redirect to the tradelist on success
 				$location.path('/tradelist');
 			})
 			.catch(function (error) {
@@ -161,7 +161,7 @@ app.controller('SignUpCtrl', ['$scope', '$firebaseArray', '$location', 'userServ
 		$scope.error = null;
 		userService.auth.$signInWithEmailAndPassword($scope.email, $scope.password)
 			.then(function() {
-				//TODO: show signin success and redirect to tradelist
+				//redirect to tradelist on success
 				$location.path('/tradelist');
 			})
 			.catch(function(error) {
