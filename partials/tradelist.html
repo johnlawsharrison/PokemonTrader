@@ -2,14 +2,15 @@
 	<header class="container" role="banner">
 		<h1>Pokemon Trader</h1>
 		<p>The community-based Pokemon trading center</p>
+		<h3 ng-show="!user.uid">To begin trading, you must <button class="btn btn-primary" ui-sref="signup">Sign in</button> first</h3>
 		<p ng-show="user.userData">Welcome back {{user.userData.username}}</p>
 	</header>
-	<section id="new-post" class="container" role="region">
+	<section ng-show="user.uid" id="new-post" class="container" role="region">
 		<div class="panel panel-default">
-  			<div class="panel-heading">
-  				<a href="#post-form" data-toggle="collapse">Post a new trade</a>
-  			</div>
-  			<div id="post-form" class="collapse panel-body">
+			<div class="panel-heading">
+				<a href="#post-form" data-toggle="collapse">Post a new trade</a>
+			</div>
+			<div id="post-form" class="collapse panel-body">
 				<form name="postForm" class="form-horizontal" role="form" novalidate>
 					<div class="form-group row">
 						<h3>I want to trade my:</h3>
@@ -70,7 +71,7 @@
 						<td>{{post.seeking.notes}}</td>
 						<td>{{post.timestamp | date : 'short'}}</td>
 						<td>
-							<button ng-hide="user.uid === post.userid" class="btn btn-success" ng-click="proposeTrade(post)">Propose Trade</button>
+							<button ng-hide="!user.uid || user.uid === post.userid" class="btn btn-success" ng-click="proposeTrade(post)">Propose Trade</button>
 							<button ng-show="user.uid === post.userid" class="btn btn-danger" ng-click="removeTrade(post.$id)">Remove Trade</button>
 						</td>
 					</tr>

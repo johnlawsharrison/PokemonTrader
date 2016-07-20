@@ -85,8 +85,7 @@ app.controller('ProposeTradeCtrl', ['$scope', '$uibModalInstance', '$firebaseArr
 
 	//submit the trade proposal for review by other user
 	$scope.submitProposal = function () {
-		// add the trade proposal to the main
-		console.log($scope.selectedPost.offering);
+		// add the trade proposal to the pending trades list
 		var tradeData = {
 			"offer": {
 				"userid": $scope.user.uid,
@@ -101,6 +100,7 @@ app.controller('ProposeTradeCtrl', ['$scope', '$uibModalInstance', '$firebaseArr
 		};
 		tradeData.offer.pokemon.id = $scope.proposeData.$id;
 		tradeService.pendingTrades.$add(tradeData);
+		$uibModalInstance.close();
 	};
 
 	//function to call when cancel button pressed
@@ -188,15 +188,6 @@ app.factory('userService', ['$firebaseAuth', '$firebaseObject', '$firebaseArray'
 			service.uid = undefined;
 		}
 	});
-
-	//remove this Pokemon from the user's inventory
-	service.removePokemon = function (id) {
-	};
-
-	//add pokemon to the user's inventory
-	service.addPokemon = function () {
-	};
-
 	return service;
 }]);
 
@@ -221,7 +212,7 @@ app.factory('tradeService', ['$firebaseArray', function ($firebaseArray) {
 
 	//return a list of trade id's associated with the Pokemon passed
 	service.getTradesForPokemon = function (pokemonID) {
-
+		
 	};
 
 	return service;
