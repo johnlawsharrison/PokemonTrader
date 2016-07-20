@@ -46,17 +46,15 @@ app.controller('TradeListCtrl', ['$scope', '$firebaseArray', '$uibModal', 'userS
 			"userid": $scope.user.uid,
 			"username": $scope.user.userData.username,
 			"timestamp": firebase.database.ServerValue.TIMESTAMP,
-			"offering": {
-				"id": $scope.offerData.$id,
-				"species": $scope.offerData.species,
-				"level": $scope.offerData.level
-			},
+			"offering": $scope.offerData,
 			"seeking": {
 				"species": $scope.desiredSpecies,
 				"minLevel": $scope.minLevel,
 				"notes": $scope.notes
 			}
 		};
+		data.offering.id = $scope.offerData.$id;
+
 		$scope.tradelist.$add(data);
 	};
 
@@ -70,7 +68,7 @@ app.controller('TradeListCtrl', ['$scope', '$firebaseArray', '$uibModal', 'userS
 		//show modal
 		$scope.selectedPost = post;
 		var modalInstance = $uibModal.open({
-			//angular seems to be caching modals, so we do a random cache bust
+			//angular seems to be caching modal state, so we do a random cache bust
 			templateUrl: 'partials/trade-modal.html?bust=' + Math.random().toString(36).slice(2),
 			controller: 'ProposeTradeCtrl', //controller for the modal
 			scope: $scope //pass in all our scope variables!
@@ -83,10 +81,26 @@ app.controller('TradeListCtrl', ['$scope', '$firebaseArray', '$uibModal', 'userS
 }]);
 
 //controller for trade proposal modal
-app.controller('ProposeTradeCtrl', ['$scope', '$uibModalInstance', function ($scope, $uibModalInstance) {
+app.controller('ProposeTradeCtrl', ['$scope', '$uibModalInstance', '$firebaseArray', 'tradeService', function ($scope, $uibModalInstance, $firebaseArray, tradeService) {
 
 	//submit the trade proposal for review by other user
 	$scope.submitProposal = function () {
+		// add the trade proposal to the main
+		console.log($scope.selectedPost.offering);
+		var tradeData = {
+			"offer": {
+				"userid": $scope.user.uid,
+				"username": $scope.user.userData.username,
+				"pokemon": $scope.proposeData
+			},
+			"request": {
+				"userid": $scope.selectedPost.userid,
+				"username": $scope.selectedPost.username,
+				"pokemon": $scope.selectedPost.offering
+			}
+		};
+		tradeData.offer.pokemon.id = $scope.proposeData.$id;
+		tradeService.pendingTrades.$add(tradeData);
 	};
 
 	//function to call when cancel button pressed
@@ -112,7 +126,7 @@ app.controller('SignUpCtrl', ['$scope', '$firebaseArray', 'userService', functio
 				};
 				var newUser = usersRef.child(firebaseUser.uid);
 				newUser.set(userData);
-				// give the user some starter pokemon
+				//give the user some starter pokemon
 				//TODO: randomize these
 				var starters = [
 						{
@@ -181,6 +195,32 @@ app.factory('userService', ['$firebaseAuth', '$firebaseObject', '$firebaseArray'
 
 	//add pokemon to the user's inventory
 	service.addPokemon = function () {
+	};
+
+	return service;
+}]);
+
+//service for managing trade proposal state
+app.factory('tradeService', ['$firebaseArray', function ($firebaseArray) {
+	var service = {}
+	var baseRef = firebase.database().ref();
+
+	service.pendingTrades = $firebaseArray(baseRef.child('pendingTrades'));
+
+	//fulfill a trade between two users
+	service.fulfillTrade = function (tradeID) {
+		// transfer the pokemon
+		// remove all trades associated with these pokemon
+		// remove all listings associated with these pokemon
+	};
+
+	//return all pending trades for this user
+	service.getTradesForUser = function (userID) {
+
+	};
+
+	//return a list of trade id's associated with the Pokemon passed
+	service.getTradesForPokemon = function (pokemonID) {
 
 	};
 

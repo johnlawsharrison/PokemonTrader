@@ -1,9 +1,27 @@
 <div class="modal-header">
-  <h3 class="modal-title">Proposing Trade to {{selectedPost.username}}</h3>
+  <h2 class="modal-title">Proposing Trade to {{selectedPost.username}}</h3>
 </div>
 <div class="modal-body">
+	<div>
+		<div class="row">
+			<div class="col-sm-6">
+				<h3>Your Pokemon</h3>
+				<form name="tradeForm" role="form" novalidate>
+					<div class="form-group">
+						<label for="proposeSelect">Select one of your Pokemon to trade</label>
+						<select name="proposeSelect" id="proposeSelect" ng-options="poke as poke.species + ' (Lvl ' + poke.level + ')' for poke in user.pokemon" ng-model="proposeData" class="form-control" required>
+						</select>
+					</div>
+				</form>
+			</div>
+			<div class="col-sm-6">
+				<h3>{{selectedPost.username}}'s Pokemon</h3>
+				<p>{{selectedPost.offering.species}} - Level {{selectedPost.offering.level}}</p>
+			</div>
+		</div>
+	</div>
 </div>
 <div class="modal-footer">
-	<button class="btn btn-success" type="button" ng-click="submitProposal()">Submit Proposal</button>
+	<button class="btn btn-success" type="button" ng-disabled="tradeForm.$invalid" ng-click="submitProposal()">Submit Proposal</button>
 	<button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
 </div>

@@ -15,7 +15,7 @@
 						<h3>I want to trade my:</h3>
 						<div class="col-sm-6">
 							<label for="offerSelect">Select one of your Pokemon to trade</label>
-							<select name="offerSelect" id="offerSelect" ng-options="poke as poke.species + ' (Lvl ' + poke.level + ')' for poke in user.pokemon" ng-model="offerData" class="form-control">
+							<select name="offerSelect" id="offerSelect" ng-options="poke as poke.species + ' (Lvl ' + poke.level + ')' for poke in user.pokemon" ng-model="offerData" class="form-control" required>
 							</select>
 						</div>
 					</div>
