@@ -3,19 +3,24 @@ a, a:hover, a:focus {
 	text-decoration: none;
 }
 
-a, a:focus, body {
-	color: black;
+a:hover {
+	color: #7890a3;
 }
 
-.jumbotron {
-	padding-top: 38px;
-	color: #fff;
-	background-color: #263238;
+a, body {
+	color: black;
 }
 
 body {
 	padding-top: 50px;
 	font-family: 'Lato', sans-serif;
+}
+
+/* jumbo */
+.jumbotron {
+	padding-top: 38px;
+	color: #fff;
+	background-color: #263238;
 }
 
 /* navbar specific */
@@ -55,11 +60,41 @@ nav img {
 
 /* tradelist forms */
 
+.panel-heading .panel-toggle:after {
+    /* symbol for open panels */
+    font-family: 'FontAwesome';
+    content: "\f077";    
+    float: right;
+    color: black;
+}
+
+.panel-heading .panel-toggle.collapsed:after {
+    /* symbol for "collapsed" panels */
+    content: "\f078";
+}
+
 .panel {
-	border-top: 2px solid black;
+	border: none;
+	border-radius: 0px;
+	border-top: 2px solid #263238;
+	-webkit-box-shadow: none;
+	box-shadow: none;
+}
+.panel-body {
+	border: none;
+}
+.panel, .panel .panel-heading {
+	background-color: transparent;
 }
 
 .panel .panel-heading {
+	border: none;
+	letter-spacing: 5px;
+	padding: 0 0 12px;
+}
+
+.panel .panel-heading a {
+	display: block;
 	font-size: 24px;
 }
 
