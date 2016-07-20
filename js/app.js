@@ -300,8 +300,8 @@ app.factory('tradeService', ['$firebaseArray', function ($firebaseArray) {
 		requestUserList.$add(trade.offer.pokemon).then(function (ref) {
 			offerUserList.$add(trade.request.pokemon).then(function (ref) {
 				// remove both original pokemon
-				requestUserList.$remove(requestUserList($getRecord(trade.request.pokemon.id));
-				offerUserList.$remove(offerUserList($getRecord(trade.offer.pokemon.id));
+				requestUserList.$remove(requestUserList($getRecord(trade.request.pokemon.id)));
+				offerUserList.$remove(offerUserList($getRecord(trade.offer.pokemon.id)));
 			});
 		});
 		service.deleteTrade(tradeID);
