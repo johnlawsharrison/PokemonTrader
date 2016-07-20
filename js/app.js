@@ -127,6 +127,10 @@ app.controller('UserProfileCtrl', ['$scope', '$uibModal', '$firebaseArray', 'tra
 	$scope.notes = "";
 
 
+	$scope.imageForPokemon = function(name) {
+		return _POKEMON[name];
+	}
+
 	//allow the current user to remove any posts associated  with their uid
 	$scope.removeTrade = function (postId) {
 		$scope.tradelist.$remove($scope.tradelist.$getRecord(postId));
@@ -202,16 +206,16 @@ app.controller('SignUpCtrl', ['$scope', '$firebaseArray', '$location', 'userServ
 				//TODO: randomize these
 				var starters = [
 						{
-							"species": "Pikachu",
-							"level": 30
+							"species": pickRandomProperty(_POKEMON),
+							"level": 5
 						},
 						{
-							"species": "Charizard",
-							"level": 50
+							"species": pickRandomProperty(_POKEMON),
+							"level": 5
 						},
 						{
-							"species": "Bulbasaur",
-							"level": 10
+							"species": pickRandomProperty(_POKEMON),
+							"level": 5
 						}
 				]
 				var newPokemon = $firebaseArray(usersRef.child(firebaseUser.uid).child('pokemon'));
@@ -304,3 +308,14 @@ app.factory('tradeService', ['$firebaseArray', function ($firebaseArray) {
 
 	return service;
 }]);
+
+// helper function for picking random pokemon
+// thanks to http://stackoverflow.com/questions/2532218/pick-random-property-from-a-javascript-object
+function pickRandomProperty(obj) {
+    var result;
+    var count = 0;
+    for (var prop in obj)
+        if (Math.random() < 1/++count)
+           result = prop;
+    return result;
+}
