@@ -2,7 +2,7 @@
 	<header class="container" role="banner">
 		<h1>Pokemon Trader</h1>
 		<p>The community-based Pokemon trading center</p>
-		<!--<p ng-show="user.userData">Welcome back {{user.userData.username}}</p> -->
+		<p ng-show="user.userData">Welcome back {{user.userData.username}}</p>
 	</header>
     <section ng-show="user.uid" id="proposed" class="container" role="region">
 		<div class="panel panel-default">
@@ -15,13 +15,22 @@
 					<tr> <!-- Need to edit the column names -->
 						<th>User</th>
 						<th>Offering</th>
-						<th>Seeking</th>
+						<th>Seeking Your</th>
 						<th>Notes</th>
 						<th>Posted</th>
+                        <th>Action</th>
 					</tr>				
 				</thead>
 				<tbody>
-					<tr ng-repeat="post in tradelist | orderBy: '-timestamp'">
+					<tr ng-repeat="post in tradelist | orderBy: '-timestamp'" ng-hide="!user.uid || user.uid !== post.userid">
+                        <td><a>{{selectedPost.username}}</a></td>
+						<td>{{post.offering.species}} - Level {{post.offering.level}}</td>
+						<td>{{post.seeking.species}} - Min Level {{post.seeking.minLevel}}</td>
+						<td>{{post.seeking.notes}}</td>
+						<td>{{post.timestamp | date : 'short'}}</td>
+						<td>
+							<button ng-show="user.uid === post.userid" class="btn btn-danger" ng-click="tradeResponse(post)">Respond to Trade</button>
+						</td>
 						
 					</tr>
 				</tbody>
@@ -39,14 +48,56 @@
 				<thead>
 					<tr> <!-- Need to edit the column names -->
 						<th>User</th>
-						<th>Offering</th>
-						<th>Seeking</th>
+                        <th>Seeking</th>
+						<th>Offering Your</th>
 						<th>Notes</th>
 						<th>Posted</th>
+                        <th>Action</th>
 					</tr>				
 				</thead>
 				<tbody>
-					<tr ng-repeat="post in tradelist | orderBy: '-timestamp'">
+					<tr ng-repeat="post in tradelist | orderBy: '-timestamp'" ng-hide="!user.uid || user.uid !== post.userid">
+                        <td><a>{{selectedPost.username}}</a></td>
+                        <td>{{post.seeking.species}} - Min Level {{post.seeking.minLevel}}</td>
+						<td>{{post.offering.species}} - Level {{post.offering.level}}</td>
+						<td>{{post.seeking.notes}}</td>
+						<td>{{post.timestamp | date : 'short'}}</td>
+						<td>
+							<button ng-show="user.uid === post.userid" class="btn btn-danger" ng-click="removeTrade(post.$id)">Delete Proposal</button>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			</div>
+		</div>
+	</section>
+    <section ng-show="user.uid" id="yourProposals" class="container" role="region">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3>Your Listings</h3>
+			</div>
+			<div id="yourProposals-table" class="table-responsive">
+				<table class="table table-hover">
+				<thead>
+					<tr> <!-- Need to edit the column names -->
+						<th>User</th>
+                        <th>Seeking</th>
+						<th>Offering Your</th>
+						<th>Notes</th>
+						<th>Posted</th>
+                        <th>Action</th>
+					</tr>				
+				</thead>
+				<tbody>
+					<tr ng-repeat="post in tradelist | orderBy: '-timestamp'" ng-hide="!user.uid || user.uid !== post.userid">
+                        <td><a>{{post.username}}</a></td>
+                        <td>{{post.seeking.species}} - Min Level {{post.seeking.minLevel}}</td>
+						<td>{{post.offering.species}} - Level {{post.offering.level}}</td>
+						<td>{{post.seeking.notes}}</td>
+						<td>{{post.timestamp | date : 'short'}}</td>
+						<td>
+							<button class="btn btn-danger" ng-click="removeTrade(post.$id)">Remove Trade</button>
+						</td>
 						
 					</tr>
 				</tbody>

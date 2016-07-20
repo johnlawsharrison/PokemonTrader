@@ -118,9 +118,68 @@ app.controller('ProposeTradeCtrl', ['$scope', '$uibModalInstance', '$firebaseArr
 }]);
 
 
-app.controller('UserProfileCtrl', ['$scope', '$uibModalInstance', '$firebaseArray', 'tradeService', function ($scope, $uibModalInstance, $firebaseArray, tradeService) {
-	
+app.controller('UserProfileCtrl', ['$scope', '$uibModalInstance', '$firebaseArray', 'tradeService', 'userService', function ($scope, $uibModalInstance, $firebaseArray, tradeService, userService) {
+	var baseRef = firebase.database().ref();
+	var tradeListRef = baseRef.child('tradelist');
+	var usersRef = baseRef.child('users');
+
+	$scope.user = userService;
+	$scope.tradelist = $firebaseArray(tradeListRef);
+	$scope.notes = "";
+
+
+	//allow the current user to remove any posts associated  with their uid
+	$scope.removeTrade = function (postId) {
+		$scope.tradelist.$remove($scope.tradelist.$getRecord(postId));
+	}
+
+	//Respon to a propsal
+	$scope.tradeResponse = function(post) {
+		//show modal
+		$scope.selectedPost = post;
+		var modalInstance = $uibModal.open({
+			//angular seems to be caching modal state, so we do a random cache bust
+			templateUrl: 'partials/response-modal.html?bust=' + Math.random().toString(36).slice(2),
+			controller: 'TradeResponseCtrl', //controller for the modal
+			scope: $scope //pass in all our scope variables!
+		});
+
+		//When the modal closes (with a result)
+		modalInstance.result.then(function(selectedItem) {
+		});
+	};	
 }]);
+
+//controller for trade proposal modal
+app.controller('TradeResponseCtrl', ['$scope', '$uibModalInstance', '$firebaseArray', 'tradeService', function ($scope, $uibModalInstance, $firebaseArray, tradeService) {
+
+	//submit the trade proposal for review by other user
+	$scope.acceptProposal= function () {
+		var tradeData = {
+			"offer": {
+				"userid": $scope.user.uid,
+				"username": $scope.user.userData.username,
+				"pokemon": $scope.proposeData
+			},
+			"request": {
+				"userid": $scope.selectedPost.userid,
+				"username": $scope.selectedPost.username,
+				"pokemon": $scope.selectedPost.offering
+			}
+		};
+		
+		tradeService.fulfillTrade();
+		$uibModalInstance.close();
+	};
+
+	//function to call when cancel button pressed
+	$scope.declineProposal = function () {
+		tradeService.deleteTrade(/*tradeID*/);
+		$uibModalInstance.dismiss('cancel');
+	};
+
+}]);
+
 
 //controller for sign up/in page
 app.controller('SignUpCtrl', ['$scope', '$firebaseArray', '$location', 'userService', function ($scope, $firebaseArray, $location, userService) {
@@ -213,6 +272,11 @@ app.factory('tradeService', ['$firebaseArray', function ($firebaseArray) {
 	var baseRef = firebase.database().ref();
 
 	service.pendingTrades = $firebaseArray(baseRef.child('pendingTrades'));
+
+	//Delete the specific trade
+	service.deleteTrade = function(tradeID){
+		
+	}
 
 	//fulfill a trade between two users
 	service.fulfillTrade = function (tradeID) {
