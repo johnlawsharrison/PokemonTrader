@@ -1,0 +1,57 @@
+<main role="main">
+	<header class="container" role="banner">
+		<h1>Pokemon Trader</h1>
+		<p>The community-based Pokemon trading center</p>
+		<!--<p ng-show="user.userData">Welcome back {{user.userData.username}}</p> -->
+	</header>
+    <section ng-show="user.uid" id="proposed" class="container" role="region">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3>Proposed to You</h3>
+			</div>
+			<div id="proposed-table" class="table-responsive">
+				<table class="table table-hover">
+				<thead>
+					<tr> <!-- Need to edit the column names -->
+						<th>User</th>
+						<th>Offering</th>
+						<th>Seeking</th>
+						<th>Notes</th>
+						<th>Posted</th>
+					</tr>				
+				</thead>
+				<tbody>
+					<tr ng-repeat="post in tradelist | orderBy: '-timestamp'">
+						
+					</tr>
+				</tbody>
+			</table>
+			</div>
+		</div>
+	</section>
+    <section ng-show="user.uid" id="yourProposals" class="container" role="region">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3>Your Proposals</h3>
+			</div>
+			<div id="yourProposals-table" class="table-responsive">
+				<table class="table table-hover">
+				<thead>
+					<tr> <!-- Need to edit the column names -->
+						<th>User</th>
+						<th>Offering</th>
+						<th>Seeking</th>
+						<th>Notes</th>
+						<th>Posted</th>
+					</tr>				
+				</thead>
+				<tbody>
+					<tr ng-repeat="post in tradelist | orderBy: '-timestamp'">
+						
+					</tr>
+				</tbody>
+			</table>
+			</div>
+		</div>
+	</section>
+</main>
