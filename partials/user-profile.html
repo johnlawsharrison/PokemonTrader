@@ -1,101 +1,121 @@
+<header role="banner" class="jumbotron">
+	<div class="text-center">
+		<h1>{{user.userData.username}}</h1>
+	</div>
+</header>
 <main role="main">
-	<header class="container" role="banner">
-		<h1>Pokemon Trader</h1>
-		<p>The community-based Pokemon trading center</p>
-		<p ng-show="user.userData">Welcome back {{user.userData.username}}</p>
-	</header>
-    <section ng-show="user.uid" id="proposed" class="container" role="region">
+	<section role="region" class="container" ng-show="user.uid">
 		<div class="panel panel-default">
 			<div class="panel-heading">
-				<h3>Proposed to You</h3>
+				<a href="user-profile#inventory" class="panel-toggle collapsed" data-toggle="collapse">Your Pokémon</a>
 			</div>
-			<div id="proposed-table" class="table-responsive">
-				<table class="table table-hover">
-				<thead>
-					<tr> <!-- Need to edit the column names -->
-						<th>User</th>
-						<th>Offering</th>
-						<th>Seeking Your</th>
-						<th>Notes</th>
-						<th>Posted</th>
-                        <th>Action</th>
-					</tr>				
-				</thead>
-				<tbody>
-					<tr ng-repeat="trade in pendingTrades | filter : {request: {userid: user.uid}}" ng-hide="!user.uid">
-                        <td><a>{{selectedPost.username}}</a></td>
-						<td>{{post.offering.species}} - Level {{post.offering.level}}</td>
-						<td>{{post.seeking.species}} - Min Level {{post.seeking.minLevel}}</td>
-						<td>{{post.seeking.notes}}</td>
-						<td>{{post.timestamp | date : 'short'}}</td>
-						<td>
-							<button ng-show="user.uid === post.userid" class="btn btn-danger" ng-click="tradeResponse(post)">Respond to Trade</button>
-						</td>
-						
-					</tr>
-				</tbody>
-			</table>
+			<div id="inventory" class="collapse panel-body">
+				<div class="pokemon col-sm-6 col-md-4" ng-repeat="pokemon in user.pokemon">
+					<div class="thumbnail">
+						<div class="caption">
+							{{pokemon.species}} - Level {{pokemon.level}}
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<section ng-show="user.uid" class="container" role="region">
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<a href="user-profile#proposed" class="panel-toggle collapsed" data-toggle="collapse">Proposed to You</a>
+			</div>
+			<div id="proposed" class="collapse panel-body">
+				<div id="proposed-table" class="table-responsive">
+					<table class="table table-hover">
+						<thead>
+							<tr>
+								<th>User</th>
+								<th>Offering</th>
+								<th>Seeking Your</th>
+								<th>Notes</th>
+								<th>Posted</th>
+								<th>Action</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat="trade in pendingTrades | filter : {request: {userid: user.uid}}" ng-hide="!user.uid">
+								<td><a>{{selectedPost.username}}</a></td>
+								<td>{{post.offering.species}} - Level {{post.offering.level}}</td>
+								<td>{{post.seeking.species}} - Min Level {{post.seeking.minLevel}}</td>
+								<td>{{post.seeking.notes}}</td>
+								<td>{{post.timestamp | date : 'short'}}</td>
+								<td>
+									<button ng-show="user.uid === post.userid" class="btn btn-danger" ng-click="tradeResponse(post)">Respond to Trade</button>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
 			</div>
 		</div>
 	</section>
     <section ng-show="user.uid" id="yourProposals" class="container" role="region">
 		<div class="panel panel-default">
 			<div class="panel-heading">
-				<h3>Your Proposals</h3>
+				<a href="user-profile#proposals" class="panel-toggle collapsed" data-toggle="collapse">Your Proposals</a>
 			</div>
-			<div id="yourProposals-table" class="table-responsive">
-				<table class="table table-hover">
-				<thead>
-					<tr>
-						<th>Other User</th>
-                        <th>Trading For</th>
-						<th>Offering Your</th>
-                        <th>Action</th>
-					</tr>				
-				</thead>
-				<tbody>
-					<tr ng-repeat="trade in pendingTrades | filter : {'offer': {'userid': user.uid}}" ng-hide="!user.uid">
-                        <td><a>{{trade.request.username}}</a></td>
-                        <td>{{trade.request.pokemon.species}} - Min Level {{trade.request.pokemon.level}}</td>
-						<td>{{trade.offer.pokemon.species}} - Level {{trade.offer.pokemon.level}}</td>
-						<td>
-							<button ng-show="user.uid === trade.offer.userid" class="btn btn-danger" ng-click="cancelProposal(trade.$id)">Cancel Proposal</button>
-						</td>
-					</tr>
-				</tbody>
-			</table>
+			<div id="proposals" class="collapse panel-body">
+				<div id="yourProposals-table" class="table-responsive">
+					<table class="table table-hover">
+						<thead>
+							<tr>
+								<th>Other User</th>
+								<th>Trading For</th>
+								<th>Offering Your</th>
+								<th>Action</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr ng-repeat="trade in pendingTrades | filter : {'offer': {'userid': user.uid}}" ng-hide="!user.uid">
+								<td><a>{{trade.request.username}}</a></td>
+								<td>{{trade.request.pokemon.species}} - Min Level {{trade.request.pokemon.level}}</td>
+								<td>{{trade.offer.pokemon.species}} - Level {{trade.offer.pokemon.level}}</td>
+								<td>
+									<button ng-show="user.uid === trade.offer.userid" class="btn btn-danger" ng-click="cancelProposal(trade.$id)">Cancel Proposal</button>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
 			</div>
 		</div>
 	</section>
-    <section ng-show="user.uid" id="yourProposals" class="container" role="region">
+	<section ng-show="user.uid" id="yourPosts" class="container" role="region">
 		<div class="panel panel-default">
 			<div class="panel-heading">
-				<h3>Your Listings</h3>
+				<a href="user-profile#posts" class="panel-toggle collapsed" data-toggle="collapse">Your Board Posts</a>
 			</div>
-			<div id="yourProposals-table" class="table-responsive">
-				<table class="table table-hover">
-				<thead>
-					<tr>
-                        <th>Seeking</th>
-						<th>Offering Your</th>
-						<th>Notes</th>
-						<th>Posted</th>
-                        <th>Action</th>
-					</tr>				
-				</thead>
-				<tbody>
-					<tr ng-repeat="post in tradelist | orderBy: '-timestamp'" ng-hide="!user.uid || user.uid !== post.userid">
-                        <td>{{post.seeking.species}} - Min Level {{post.seeking.minLevel}}</td>
-						<td>{{post.offering.species}} - Level {{post.offering.level}}</td>
-						<td>{{post.seeking.notes}}</td>
-						<td>{{post.timestamp | date : 'short'}}</td>
-						<td>
-							<button class="btn btn-danger" ng-click="removeTrade(post.$id)">Remove Trade</button>
-						</td>
-						
-					</tr>
-				</tbody>
-			</table>
+			<div id="posts" class="collapse panel-body">
+				<div id="yourProposals-table" class="table-responsive">
+					<table class="table table-hover">
+					<thead>
+						<tr>
+							<th>Seeking</th>
+							<th>Offering Your</th>
+							<th>Notes</th>
+							<th>Posted</th>
+							<th>Action</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="post in tradelist | orderBy: '-timestamp'" ng-hide="!user.uid || user.uid !== post.userid">
+							<td>{{post.seeking.species}} - Min Level {{post.seeking.minLevel}}</td>
+							<td>{{post.offering.species}} - Level {{post.offering.level}}</td>
+							<td>{{post.seeking.notes}}</td>
+							<td>{{post.timestamp | date : 'short'}}</td>
+							<td>
+								<button class="btn btn-danger" ng-click="removeTrade(post.$id)">Remove Trade</button>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				</div>
 			</div>
 		</div>
 	</section>

@@ -150,10 +150,10 @@ app.controller('UserProfileCtrl', ['$scope', '$uibModal', '$firebaseArray', 'tra
 	};	
 }]);
 
-//controller for trade proposal modal
+//controller for trade response modal
 app.controller('TradeResponseCtrl', ['$scope', '$uibModalInstance', '$firebaseArray', 'tradeService', function ($scope, $uibModalInstance, $firebaseArray, tradeService) {
 
-	//submit the trade proposal for review by other user
+	//accept the proposal and fulfill the trade
 	$scope.acceptProposal= function () {
 		var tradeData = {
 			"offer": {
@@ -285,7 +285,7 @@ app.factory('tradeService', ['$firebaseArray', function ($firebaseArray) {
 
 	//fulfill a trade between two users
 	service.fulfillTrade = function (tradeID) {
-		// transfer the pokemon
+		// transfer the pokemon, leveling each one up
 		// remove all trades associated with these pokemon
 		// remove all listings associated with these pokemon
 	};
