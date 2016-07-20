@@ -37,6 +37,7 @@ app.controller('TradeListCtrl', ['$scope', '$firebaseArray', 'userService', func
 
 	$scope.user = userService;
 	$scope.tradelist = $firebaseArray(tradeListRef);
+	$scope.notes = ""; //so that notes can be optional, but won't fail the database write with undefined
 
 	//list a new trade post on the board
 	$scope.listTrade = function () {
@@ -143,6 +144,15 @@ app.factory('userService', ['$firebaseAuth', '$firebaseObject', '$firebaseArray'
 			service.uid = undefined;
 		}
 	});
+
+	//remove this Pokemon from the user's inventory
+	service.removePokemon = function (id) {
+	};
+
+	//add pokemon to the user's inventory
+	service.addPokemon = function () {
+
+	};
 
 	return service;
 }]);

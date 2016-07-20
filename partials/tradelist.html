@@ -10,12 +10,12 @@
   				<a href="#post-form" data-toggle="collapse">Post a new trade</a>
   			</div>
   			<div id="post-form" class="collapse panel-body">
-				<form class="form-horizontal" role="form">
+				<form name="postForm" class="form-horizontal" role="form" novalidate>
 					<div class="form-group row">
 						<h3>I want to trade my:</h3>
 						<div class="col-sm-6">
 							<label for="offerSelect">Select one of your Pokemon to trade</label>
-							<select name="offerSelect" id="offerSelect" ng-options="pokemon.species + ' (Lvl ' + pokemon.level + ')' for pokemon in user.pokemon track by pokemon" ng-model="offerData" class="form-control">
+							<select name="offerSelect" id="offerSelect" ng-options="poke as poke.species + ' (Lvl ' + poke.level + ')' for poke in user.pokemon" ng-model="offerData" class="form-control">
 							</select>
 						</div>
 					</div>
@@ -23,11 +23,11 @@
 						<h3>For a:</h3>
 						<div class="col-sm-4">
 							<label for="post-for-species">Desired Pokemon species</label>
-							<input type="text" id="post-for-species" name="forSpecies" class="form-control" ng-model="desiredSpecies">
+							<input type="text" id="post-for-species" name="forSpecies" class="form-control" ng-model="desiredSpecies" required>
 						</div>
 						<div class="col-sm-4">
 							<label for="post-level-input">Minimum desired level</label>
-							<input type="text" id="post-level-input" name="level" class="form-control" ng-model="minLevel">
+							<input type="text" id="post-level-input" name="level" class="form-control" ng-model="minLevel" required>
 						</div>
 						<div class="col-sm-4">
 							<label for="post-notes">Notes</label>
@@ -36,11 +36,11 @@
 					</div>
 					<div class="form-group row text-center">
 						<div class="content">
-							<button class="btn btn-primary btn-lg" ng-click="listTrade()">List my trade</button>
+							<button class="btn btn-primary btn-lg" ng-disabled="postForm.$invalid" ng-click="listTrade()">List my trade</button>
 						</div>
 					</div>
 				</form>
-  			</div>
+			</div>
 		</div>
 	</section>
 	<section class="container" role="region">
