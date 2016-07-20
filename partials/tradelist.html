@@ -1,8 +1,10 @@
 <main role="main">
-	<header class="container" role="banner">
-		<h1>Pokemon Trader</h1>
-		<p>The community-based Pokemon trading center</p>
-		<h3 ng-show="!user.uid">To begin trading please <button class="btn btn-primary" ui-sref="signup">Sign in</button></h3>
+	<header role="banner">
+		<div class="page-header text-center">
+			<h1>Pokemon Trader</h1>
+			<p>The community-based Pokemon trading center</p>
+			<h3 ng-show="!user.uid">To begin trading please <button class="btn btn-primary" ui-sref="signup">Sign in</button></h3>
+		</div>
 	</header>
 	<section ng-show="user.uid" id="new-post" class="container" role="region">
 		<div class="panel panel-default">
@@ -44,8 +46,8 @@
 		</div>
 	</section>
 	<section class="container" role="region">
-		<div class="row">
-			<form class="pull-right trade-search" name="searchForm" role="form" novalidate>
+		<div class="row trade-search">
+			<form class="pull-right" name="searchForm" role="form" novalidate>
 				<div class="form-group form-inline">
 					<input type="text" name="item" id="item" class="form-control" ng-model="searchQuery" placeholder="Search for a trade">
 				</div>

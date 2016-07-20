@@ -6,6 +6,21 @@ a, a:hover, a:focus {
 a, a:focus, body {
 	color: black;
 }
+
+h1 {
+	font-weight: 900;
+}
+
+header {
+	padding-top: 38px;
+	color: #fff;
+	background-color: #263238;
+}
+
+body {
+	font-family: 'Lato', sans-serif;
+}
+
 /* navbar specific */
 .navbar-default .navbar-nav>li>a {
 	color: white;
@@ -31,7 +46,7 @@ a, a:focus, body {
 .navbar-default {
 	border: none;
 	width: 100%;	
-	background-color: #eb2224;
+	background-color: #EF5350;
 	border-radius: 0;
 	margin-left: none;
 }
@@ -49,7 +64,6 @@ nav img {
 
 .panel .panel-heading {
 	font-size: 24px;
-	text-transform: uppercase;
 }
 
 .content {
@@ -66,9 +80,9 @@ nav img {
 
 /* tradelist */
 .trade-search {
-	margin-right: 15px;
+	padding-right: 15px;
+	margin-top: 25px;
 }
-
 /**/
 
 .sprite {
