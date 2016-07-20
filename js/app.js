@@ -77,8 +77,8 @@ app.controller('TradeListCtrl', ['$scope', '$firebaseArray', '$uibModal', 'userS
 		var modalInstance = $uibModal.open({
 			//angular seems to be caching modal state, so we do a random cache bust
 			templateUrl: 'partials/trade-modal.html?bust=' + Math.random().toString(36).slice(2),
-			controller: 'ProposeTradeCtrl', //controller for the modal
-			scope: $scope //pass in all our scope variables!
+			controller: 'ProposeTradeCtrl',
+			scope: $scope
 		});
 
 		//When the modal closes (with a result)

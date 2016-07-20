@@ -1,9 +1,9 @@
 <main role="main">
 	<header role="banner" class="jumbotron">
 		<div class="text-center">
-			<h1>Pokemon Trader</h1>
-			<p>A simple Pokemon trading game</p>
-			<p>Start with 3 Pokemon and see how many you can collect!</p>
+			<h1>Pokémon Trader</h1>
+			<p>A simple Pokémon trading game</p>
+			<p>Start with 3 Pokémon and see how many you can collect!</p>
 			<h3 ng-show="!user.uid">To begin trading please <button class="btn btn-primary" ui-sref="signup">Sign in</button></h3>
 		</div>
 	</header>
@@ -17,7 +17,7 @@
 					<div class="form-group row">
 						<h3>I want to trade my:</h3>
 						<div class="col-sm-6">
-							<label for="offerSelect">Select one of your Pokemon to trade</label>
+							<label for="offerSelect">Select one of your Pokémon to trade</label>
 							<select name="offerSelect" id="offerSelect" ng-options="poke as poke.species + ' (Lvl ' + poke.level + ')' for poke in user.pokemon" ng-model="offerData" class="form-control" required>
 							</select>
 						</div>
