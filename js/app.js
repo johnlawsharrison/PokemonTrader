@@ -14,6 +14,11 @@ app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $u
 			url: '/signup',
 			templateUrl: 'partials/sign-up.html',
 			controller: 'SignUpCtrl'
+		})
+		.state('profileView', {
+			url: '/user-profile',
+			templateUrl: 'partials/user-profile',
+			controller: 'UserProfileCtrl'
 		});
 	$urlRouterProvider.otherwise('/');
 }]);
@@ -110,6 +115,11 @@ app.controller('ProposeTradeCtrl', ['$scope', '$uibModalInstance', '$firebaseArr
 		$uibModalInstance.dismiss('cancel');
 	};
 
+}]);
+
+
+app.controller('UserProfileCtrl', ['$scope', '$uibModalInstance', '$firebaseArray', 'tradeService', function ($scope, $uibModalInstance, $firebaseArray, tradeService) {
+	
 }]);
 
 //controller for sign up/in page
